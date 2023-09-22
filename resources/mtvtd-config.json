@@ -1,0 +1,20 @@
+{
+    "git": {
+        "user": "$GIT_USER",
+        "pull": {
+            "ff-only": true
+        }
+    },
+    "bitbucket": {
+        "repository": "$BITBUCKET_REPO",
+        "username": "$BITBUCKET_APP_USERNAME",
+        "password": "$BITBUCKET_APP_PASSWORD",
+        "commit": {
+            "title": "[Automated] - Composer Update - {date}"
+        },
+        "token": "$BITBUCKET_TOKEN"
+    },
+    "composer": {
+        "update-branch": "hotfix/composer-update"
+    }
+}

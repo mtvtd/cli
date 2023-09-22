@@ -2,7 +2,9 @@
 
 namespace App\Commands\Bitbucket;
 
+use App\Facades\Config;
 use App\Facades\Bitbucket;
+use Illuminate\Support\Str;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -15,27 +17,27 @@ class CreatePRCommand extends Command
     {
         $this->output->title('Create a PR on Bitbucket');
 
-        $repo = env('BITBUCKET_REPO');
+        // Variabelen
+        $repository = Config::get('bitbucket.repository');
+        $source = $this->argument('source');
+        $destination = $this->argument('destination');
+        $title = Config::get('bitbucket.commit.title', '[Automated] - Composer Update - {date}');
+        $title = Str::of($title)->replace('{date}', now()->format('d-m-Y H:i:s'))->toString();
 
-        // Get Current User
-        $user = Bitbucket::currentUser();
-        $uuid = $user->uuid;
+        // Set Token
+        Bitbucket::setToken(Config::get('bitbucket.token'));
 
         // Which Reviewers
-        $defaultReviewers = Bitbucket::defaultReviewers($repo);
+        $this->info('- Get default reviewers');
+        $defaultReviewers = Bitbucket::defaultReviewers($repository);
         $prReviewers = $defaultReviewers->pluck('uuid')
-            ->filter(fn(string $value) => $value !== $uuid)
             ->map(fn(string $uuid) => ['uuid' => $uuid])
             ->values();
 
-        // Variabelen
-        $source = $this->argument('source');
-        $destination = $this->argument('destination');
-        $title = '[CircleCI] - Composer Update - ' . now()->format('d-m-Y H:i:s');
-
         // Create the PR
+        $this->info('- Create PR');
         Bitbucket::createPR(
-            repo: $repo,
+            repository: $repository,
             source: $source,
             destination: $destination,
             title: $title,

@@ -5,12 +5,12 @@ namespace App\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @mixin \App\Support\MTVTDConfig
+ * @mixin \App\Support\Config
  */
-class MTVTDConfig extends Facade
+class Config extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \App\Support\MTVTDConfig::class;
+        return \App\Support\Config::class;
     }
 }

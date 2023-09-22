@@ -2,6 +2,7 @@
 
 namespace App\Commands\Composer;
 
+use App\Facades\Config;
 use Symfony\Component\Process\Process;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
@@ -11,7 +12,7 @@ class ComposerUpdateCommand extends Command
     protected $signature = 'composer:update';
     protected $description = 'Create composer-update branch';
 
-    private ?string $branch = null;
+    private ?string $mainBranch = null;
 
     public function handle(): int
     {
@@ -20,13 +21,26 @@ class ComposerUpdateCommand extends Command
         $result = $this->task('Make sure we are on the master/main branch', function () {
             $process = new Process(['git', 'rev-parse', '--abbrev-ref', 'HEAD']);
             $process->run();
-            $this->branch = $process->isSuccessful() ? trim($process->getOutput()) : null;
+            $this->mainBranch = $process->isSuccessful() ? trim($process->getOutput()) : null;
 
-            return in_array($this->branch, ['master', 'main'], true);
+            return in_array($this->mainBranch, ['master', 'main'], true);
         });
 
         if ( ! $result) {
             return self::FAILURE;
+        }
+
+        if ($gitUser = Config::get('git.user')) {
+            $result = $this->task('Set Git User', function () use ($gitUser) {
+                $process = new Process(['git', 'config', 'user.email', $gitUser]);
+                $process->run();
+
+                return $process->isSuccessful();
+            });
+
+            if ( ! $result) {
+                return self::FAILURE;
+            }
         }
 
         $result = $this->task('Make sure we have a clean state', function () {
@@ -41,8 +55,10 @@ class ComposerUpdateCommand extends Command
         }
 
         $result = $this->task('Pull latest changes', function () {
-            // $process = new Process(['git', 'pull', 'origin', 'HEAD', '--ff-only']);
-            $process = new Process(['git', 'pull', 'origin', 'HEAD']);
+            $process = Config::get('git.pull.ff-only')
+                ? new Process(['git', 'pull', 'origin', 'HEAD', '--ff-only'])
+                : new Process(['git', 'pull', 'origin', 'HEAD']);
+
             $process->run();
 
             return $process->isSuccessful();
@@ -52,8 +68,10 @@ class ComposerUpdateCommand extends Command
             return self::FAILURE;
         }
 
-        $result = $this->task('Create Composer Update Branch', function () {
-            $process = new Process(['git', 'checkout', '-B', 'hotfix/composer-update']);
+        $updateBranch = Config::get('composer.update-branch');
+
+        $result = $this->task('Create Composer Update Branch', function () use ($updateBranch) {
+            $process = new Process(['git', 'checkout', '-B', $updateBranch]);
             $process->run();
 
             return $process->isSuccessful();
@@ -108,7 +126,7 @@ class ComposerUpdateCommand extends Command
         }
 
         $result = $this->task('Switch back to master/main branch', function () {
-            $process = new Process(['git', 'checkout', $this->branch]);
+            $process = new Process(['git', 'checkout', $this->mainBranch]);
             $process->run();
 
             return $process->isSuccessful();
@@ -118,8 +136,8 @@ class ComposerUpdateCommand extends Command
             return self::FAILURE;
         }
 
-        $result = $this->task('Delete Composer Update Branch', function () {
-            $process = new Process(['git', 'branch', '-D', 'hotfix/composer-update']);
+        $result = $this->task('Delete Composer Update Branch', function () use ($updateBranch) {
+            $process = new Process(['git', 'branch', '-D', $updateBranch]);
             $process->run();
 
             return $process->isSuccessful();

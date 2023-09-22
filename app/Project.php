@@ -8,4 +8,9 @@ class Project
     {
         return getcwd();
     }
+
+    public static function packageRoot(): string
+    {
+        return dirname(__DIR__);
+    }
 }

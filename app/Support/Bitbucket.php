@@ -7,9 +7,20 @@ use Illuminate\Support\Facades\Http;
 
 class Bitbucket
 {
+    protected array $credentials = [
+        'token' => null,
+    ];
+
     protected function baseUri(): string
     {
         return 'https://api.bitbucket.org/2.0/';
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->credentials['token'] = $token;
+
+        return $this;
     }
 
     public function currentUser(): object
@@ -17,7 +28,7 @@ class Bitbucket
         $uri = 'user';
 
         return Http::baseUrl($this->baseUri())
-            ->withBasicAuth(env('BITBUCKET_APP_USERNAME'), env('BITBUCKET_APP_PASSWORD'))
+            ->withToken($this->credentials['token'])
             ->get($uri)
             ->throw()
             ->object();
@@ -28,7 +39,7 @@ class Bitbucket
         $uri = 'repositories/' . $repo . '/default-reviewers';
 
         return Http::baseUrl($this->baseUri())
-            ->withBasicAuth(env('BITBUCKET_APP_USERNAME'), env('BITBUCKET_APP_PASSWORD'))
+            ->withToken($this->credentials['token'])
             ->get($uri)
             ->throw()
             ->collect('values');
@@ -39,15 +50,15 @@ class Bitbucket
         $uri = 'repositories/' . $repo . '/pullrequests';
 
         return Http::baseUrl($this->baseUri())
-            ->withBasicAuth(env('BITBUCKET_APP_USERNAME'), env('BITBUCKET_APP_PASSWORD'))
+            ->withToken($this->credentials['token'])
             ->get($uri)
             ->throw()
             ->collect();
     }
 
-    public function createPR(string $repo, string $source, string $destination, string $title, Collection $reviewers): object
+    public function createPR(string $repository, string $source, string $destination, string $title, Collection $reviewers): object
     {
-        $uri = 'repositories/' . $repo . '/pullrequests';
+        $uri = 'repositories/' . $repository . '/pullrequests';
 
         $data = [
             'title' => $title,
@@ -67,7 +78,7 @@ class Bitbucket
         ];
 
         return Http::baseUrl($this->baseUri())
-            ->withBasicAuth(env('BITBUCKET_APP_USERNAME'), env('BITBUCKET_APP_PASSWORD'))
+            ->withToken($this->credentials['token'])
             ->withHeaders([
                 'Content-Type' => 'application/json',
             ])

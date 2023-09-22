@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Support\MTVTDConfig;
+use App\Support\Config;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(MTVTDConfig::class, function () {
-            return new MTVTDConfig(MTVTDConfig::loadLocal());
+        $this->app->bind(Config::class, function () {
+            return new Config(Config::loadLocal());
         });
     }
 }
