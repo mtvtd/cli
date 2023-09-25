@@ -16,5 +16,13 @@
     },
     "composer": {
         "update-branch": "hotfix/composer-update"
+    },
+    "deploy": {
+        "steps": [],
+        "notification": {
+            "failed": [
+                "ict@mtvtd.nl"
+            ]
+        }
     }
 }
