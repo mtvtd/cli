@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Support;
+namespace Mtvtd\Deploy\Support;
 
-use App\Project;
+use Mtvtd\Deploy\Project;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Support;
+namespace Mtvtd\Deploy\Support;
 
-use App\Project;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PhpCsFixer\ToolInfo;
+use Mtvtd\Deploy\Project;
 use PhpCsFixer\Runner\Runner;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Error\ErrorsManager;

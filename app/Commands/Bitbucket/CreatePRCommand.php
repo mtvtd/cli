@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Commands\Bitbucket;
+namespace Mtvtd\Deploy\Commands\Bitbucket;
 
-use App\Facades\Config;
-use App\Facades\Bitbucket;
 use Illuminate\Support\Str;
+use Mtvtd\Deploy\Facades\Config;
+use Mtvtd\Deploy\Facades\Bitbucket;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 

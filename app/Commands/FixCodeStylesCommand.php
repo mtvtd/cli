@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Commands;
+namespace Mtvtd\Deploy\Commands;
 
-use App\Support\PhpCsFixer;
+use Mtvtd\Deploy\Support\PhpCsFixer;
 use PhpCsFixer\Console\Output\ErrorOutput;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;

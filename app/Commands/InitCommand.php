@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Commands;
+namespace Mtvtd\Deploy\Commands;
 
-use App\Project;
-use App\Support\Config;
+use Mtvtd\Deploy\Project;
+use Mtvtd\Deploy\Support\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;

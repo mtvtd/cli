@@ -67,7 +67,7 @@ return [
     */
 
     'providers' => [
-        App\Providers\AppServiceProvider::class,
+        Mtvtd\Deploy\Providers\AppServiceProvider::class,
     ],
 
 ];

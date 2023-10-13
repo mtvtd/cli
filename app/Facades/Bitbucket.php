@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Facades;
+namespace Mtvtd\Deploy\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @mixin \App\Support\Bitbucket
+ * @mixin \Mtvtd\Deploy\Support\Bitbucket
  */
 class Bitbucket extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \App\Support\Bitbucket::class;
+        return \Mtvtd\Deploy\Support\Bitbucket::class;
     }
 }

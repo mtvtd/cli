@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Commands\Composer;
+namespace Mtvtd\Deploy\Commands\Composer;
 
-use App\Facades\Config;
+use Mtvtd\Deploy\Facades\Config;
 use Symfony\Component\Process\Process;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;

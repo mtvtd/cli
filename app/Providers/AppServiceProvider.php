@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace Mtvtd\Deploy\Providers;
 
-use App\Support\Config;
+use Mtvtd\Deploy\Support\Config;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

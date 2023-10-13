@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Commands;
+namespace Mtvtd\Deploy\Commands;
 
-use App\Facades\Config;
+use Mtvtd\Deploy\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Process\Process;
 use Illuminate\Console\Scheduling\Schedule;

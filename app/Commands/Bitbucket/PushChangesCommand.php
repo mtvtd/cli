@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\Bitbucket;
+namespace Mtvtd\Deploy\Commands\Bitbucket;
 
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
