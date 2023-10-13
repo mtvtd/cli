@@ -22,8 +22,7 @@
         "laravel-zero/framework": "^9.2",
         "laravel/pint": "^1.2",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/termwind": "^1.14",
-        "pestphp/pest": "^1.21.3"
+        "nunomaduro/termwind": "^1.14"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +41,6 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },
