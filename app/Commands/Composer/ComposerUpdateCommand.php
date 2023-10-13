@@ -68,7 +68,7 @@ class ComposerUpdateCommand extends Command
             return self::FAILURE;
         }
 
-        $updateBranch = Config::get('composer.update-branch');
+        $updateBranch = Config::get('composer.update-branch') ?? 'composer-update';
 
         $result = $this->task('Create Composer Update Branch', function () use ($updateBranch) {
             $process = new Process(['git', 'checkout', '-B', $updateBranch]);
