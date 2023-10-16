@@ -70,4 +70,10 @@ jobs:
 #### Documentation
 For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
 
+#### Links
+- https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-priorities/#api-rest-api-3-priority-search-get
+- https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/
+- https://laravel-zero.com/docs/build-a-standalone-application
+
+
 

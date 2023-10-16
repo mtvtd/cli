@@ -35,6 +35,10 @@ class ComposerUpdateCommand extends Command
                 $process = new Process(['git', 'config', 'user.email', $gitUser]);
                 $process->run();
 
+                if ( ! $process->isSuccessful()) {
+                    throw new \Exception($process->getErrorOutput());
+                }
+
                 return $process->isSuccessful();
             });
 
@@ -46,6 +50,10 @@ class ComposerUpdateCommand extends Command
         $result = $this->task('Make sure we have a clean state', function () {
             $process = new Process(['git', 'status', '--porcelain']);
             $process->run();
+
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
 
             return $process->isSuccessful() && empty(trim($process->getOutput()));
         });
@@ -61,6 +69,10 @@ class ComposerUpdateCommand extends Command
 
             $process->run();
 
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
+
             return $process->isSuccessful();
         });
 
@@ -74,6 +86,10 @@ class ComposerUpdateCommand extends Command
             $process = new Process(['git', 'checkout', '-B', $updateBranch]);
             $process->run();
 
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
+
             return $process->isSuccessful();
         });
 
@@ -84,6 +100,10 @@ class ComposerUpdateCommand extends Command
         $result = $this->task('Run Composer Update', function () {
             $process = new Process(['composer', 'update', '-W', '--no-audit']);
             $process->run();
+
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
 
             return $process->isSuccessful();
         }, 'running ...');
@@ -96,6 +116,10 @@ class ComposerUpdateCommand extends Command
             $process = new Process(['git', 'add', '.']);
             $process->run();
 
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
+
             return $process->isSuccessful();
         });
 
@@ -106,6 +130,10 @@ class ComposerUpdateCommand extends Command
         $result = $this->task('Commit changes', function () {
             $process = new Process(['git', 'commit', '-m', 'Composer Update']);
             $process->run();
+
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
 
             return $process->isSuccessful();
         });
@@ -118,6 +146,10 @@ class ComposerUpdateCommand extends Command
             $process = new Process(['git', 'push', 'origin', 'HEAD', '-f']);
             $process->run();
 
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
+
             return $process->isSuccessful();
         });
 
@@ -129,6 +161,10 @@ class ComposerUpdateCommand extends Command
             $process = new Process(['git', 'checkout', $this->mainBranch]);
             $process->run();
 
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
+
             return $process->isSuccessful();
         });
 
@@ -139,6 +175,10 @@ class ComposerUpdateCommand extends Command
         $result = $this->task('Delete Composer Update Branch', function () use ($updateBranch) {
             $process = new Process(['git', 'branch', '-D', $updateBranch]);
             $process->run();
+
+            if ( ! $process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
 
             return $process->isSuccessful();
         });
