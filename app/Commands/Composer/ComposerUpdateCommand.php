@@ -39,6 +39,9 @@ class ComposerUpdateCommand extends Command
                     throw new \Exception($process->getErrorOutput());
                 }
 
+                $process = new Process(['git', 'config', 'user.name', "MTVTD Bot"]);
+                $process->run();
+
                 return $process->isSuccessful();
             });
 
