@@ -31,16 +31,28 @@ class ComposerUpdateCommand extends Command
         }
 
         if ($gitUser = Config::get('git.user')) {
-            $result = $this->task('Set Git User', function () use ($gitUser) {
-                $process = new Process(['git', 'config', 'user.email', $gitUser]);
+            $result = $this->task('Set Git User Name', function () use ($gitUser) {
+                $process = new Process(['git', 'config', 'user.name', "MTVTD Bot"]);
                 $process->run();
 
                 if ( ! $process->isSuccessful()) {
                     throw new \Exception($process->getErrorOutput());
                 }
 
-                $process = new Process(['git', 'config', 'user.name', "MTVTD Bot"]);
+                return $process->isSuccessful();
+            });
+
+            if ( ! $result) {
+                return self::FAILURE;
+            }
+
+            $result = $this->task('Set Git User E-mail', function () use ($gitUser) {
+                $process = new Process(['git', 'config', 'user.email', $gitUser]);
                 $process->run();
+
+                if ( ! $process->isSuccessful()) {
+                    throw new \Exception($process->getErrorOutput());
+                }
 
                 return $process->isSuccessful();
             });
